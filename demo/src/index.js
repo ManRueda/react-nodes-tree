@@ -4,12 +4,12 @@ import {render} from 'react-dom'
 import Example from '../../src'
 
 class Demo extends Component {
-  render() {
+  render () {
     return <div>
       <h1>react-nodes-tree Demo</h1>
-      <Example/>
+      <Example />
     </div>
   }
 }
 
-render(<Demo/>, document.querySelector('#demo'))
+render(<Demo />, document.querySelector('#demo'))
