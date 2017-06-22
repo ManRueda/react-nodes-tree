@@ -14,8 +14,13 @@ class Node extends Component {
     this.onNodeOpenerClick = this.onNodeOpenerClick.bind(this)
   }
 
-  onNodeOpenerClick () {
-    this.setState({ ...this.state, opened: !this.state.opened })
+  onNodeOpenerClick (event) {
+    // If the target is the LI and the relatedTarget is null, should be the ::before section
+    if (event.relatedTarget === null && event.target.nodeName === 'LI') {
+      this.setState({ ...this.state, opened: !this.state.opened })
+    } else {
+      this.setState({ ...this.state, selected: !this.state.opened })
+    }
   }
 
   render () {
