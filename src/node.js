@@ -9,28 +9,44 @@ class Node extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      opened: props.opened
+      opened: props.opened,
+      selected: props.selected
     }
     this.onNodeOpenerClick = this.onNodeOpenerClick.bind(this)
+    this.changeSelected = this.changeSelected.bind(this)
   }
 
-  onNodeOpenerClick (event) {
+  onNodeOpenerClick (event, node) {
     // If the target is the LI and the relatedTarget is null, should be the ::before section
     if (event.relatedTarget === null && event.target.nodeName === 'LI') {
       this.setState({ ...this.state, opened: !this.state.opened })
     } else {
-      this.setState({ ...this.state, selected: !this.state.opened })
+      this.changeSelected(node)
+    }
+  }
+
+  changeSelected (node) {
+    this.props.onSelect(node)
+    this.setState({ ...this.state, selected: node })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.opened !== this.props.opened) {
+      this.setState({ ...this.state, opened: nextProps.opened })
+    }
+    if (nextProps.selected !== this.props.selected) {
+      this.setState({ ...this.state, selected: nextProps.selected })
     }
   }
 
   render () {
     const { name, attrs, children } = this.props.node
-    const { level } = this.props
+    const { level, node } = this.props
     const { opened } = this.state
     if (!children || children.length === 0) {
       return (
-        <StyledOL>
-          <li className='no-child'>
+        <StyledOL className={classNames({ selected: node === this.state.selected })}>
+          <li className='no-child' onClick={() => this.changeSelected(node)}>
             <HighlightLine level={level + 1} />
             <NodeOpenLineContent name={name} attrs={attrs} />
             <NodeCloseLineContent name={name} />
@@ -40,8 +56,8 @@ class Node extends Component {
     }
     if (children && children.length > 0 && !opened) {
       return (
-        <StyledOL>
-          <li className={classNames({ opened, closed: !opened })} onClick={this.onNodeOpenerClick} >
+        <StyledOL className={classNames({ selected: node === this.state.selected })}>
+          <li className={classNames({ opened, closed: !opened })} onClick={(event) => this.onNodeOpenerClick(event, node)} >
             <HighlightLine level={level} />
             <NodeOpenLineContent name={name} attrs={attrs} />
             <span>...</span>
@@ -52,8 +68,8 @@ class Node extends Component {
     }
     if (children && children.length > 0 && opened) {
       return (
-        <StyledOL>
-          <li className={classNames({ opened, closed: !opened })} onClick={this.onNodeOpenerClick}>
+        <StyledOL className={classNames({ selected: node === this.state.selected })}>
+          <li className={classNames({ opened, closed: !opened })} onClick={(event) => this.onNodeOpenerClick(event, node)}>
             <HighlightLine level={level} />
             <NodeOpenLineContent name={name} attrs={attrs} />
           </li>
@@ -61,12 +77,12 @@ class Node extends Component {
             <ol>
               {children.map((child, i) => (
                 <li key={i}>
-                  <Node node={child} level={level + 1} />
+                  <Node node={child} level={level + 1} onSelect={this.changeSelected} selected={this.state.selected} />
                 </li>
               ))}
             </ol>
           </li>
-          <li>
+          <li onClick={() => this.changeSelected(node)}>
             <HighlightLine level={level} />
             <NodeCloseLineContent name={name} />
           </li>
@@ -92,7 +108,9 @@ const nodeProps = PropTypes.shape({
 Node.propTypes = {
   node: nodeProps.isRequired,
   level: PropTypes.number,
-  opened: PropTypes.bool
+  opened: PropTypes.bool,
+  onSelect: PropTypes.func,
+  selected: nodeProps
 }
 
 Node.defaultProps = {
