@@ -1,9 +1,9 @@
-import treeoutlineRriangles from '../../assets/treeoutline-triangles.png'
+import arrow from '../assets/arrow.svg'
 
 export const backgroundColor = 'rgb(36, 36, 36)'
 
 export const font = {
-  size: '12px',
+  size: '20px',
   color: 'rgb(93, 176, 215)',
   family: 'Consolas, Lucida Console, Courier New, monospace'
 }
@@ -15,7 +15,10 @@ export const highlight = {
   selected: {
     color: 'rgb(199, 134, 38)'
   },
-  opennerIcon: `url(${treeoutlineRriangles}`
+  expand: {
+    icon: `url(${arrow})`,
+    color: 'rgb(145, 145, 145)'
+  }
 }
 
 export const attr = {
@@ -27,4 +30,4 @@ export const attr = {
   }
 }
 
-export const levelMargin = 12
+export const levelMargin = '1' // in em

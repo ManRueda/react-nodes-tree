@@ -1,41 +1,19 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import NodeAttribute from './node-attribute'
-import { NodeOL, NodeLI, NodeTagNameSpan, NodeChildrenOL, NodeChilLI, NodeFullRow } from './node-styled'
+import TreeWrapper from './tree-wrapper'
+import TreeItem from './tree-item'
+import { ThemeProvider } from 'styled-components'
+import * as darkTheme from './themes/dark'
 
-class Node extends Component {
+class Tree extends Component {
   render () {
-    const { name, attrs, children } = this.props.node
+    const { node, theme } = this.props
     return (
-      <NodeOL>
-        <NodeLI>
-          <NodeFullRow level={this.props.level} />
-          &lt;
-          <NodeTagNameSpan>
-            {name}
-          </NodeTagNameSpan>
-          &#32;
-          {attrs.map(attr => (
-            <NodeAttribute key={attr.name} name={attr.name} value={attr.value} />
-          ))}
-          &gt;
-        </NodeLI>
-        {children && children.length > 0 && <NodeLI>
-          <NodeChildrenOL>
-            {children.map((child, i) => (
-              <NodeChilLI key={i}>
-                <Node node={child} level={this.props.level + 1} />
-              </NodeChilLI>
-            ))}
-          </NodeChildrenOL>
-        </NodeLI>}
-        <NodeLI>
-          <NodeFullRow level={this.props.level} />
-          &lt;
-          <span>/{name}</span>
-          &gt;
-        </NodeLI>
-      </NodeOL>
+      <ThemeProvider theme={theme || darkTheme}>
+        <TreeWrapper>
+          <TreeItem node={node} />
+        </TreeWrapper>
+      </ThemeProvider>
     )
   }
 }
@@ -53,13 +31,9 @@ const nodeProps = PropTypes.shape({
   children: PropTypes.arrayOf(PropTypes.object)
 })
 
-Node.propTypes = {
+Tree.propTypes = {
   node: nodeProps.isRequired,
-  level: PropTypes.number
+  theme: PropTypes.arrayOf(PropTypes.object)
 }
 
-Node.defaultProps = {
-  level: 0
-}
-
-export default Node
+export default Tree

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 
 import TreeItemHighlight from './tree-item-highlight'
 import TreeItemGutter from './tree-item-gutter'
@@ -10,9 +11,11 @@ import TreeHtmlTag from './tree-html-tag'
 import styled from './tree-item-tag-styled'
 
 const TreeItemTag = (props) => {
-  const { name, attrs, expanded, hasChildren, children, className } = props
+  const { name, attrs, expanded, hasChildren, children, className, closeTag } = props
   return (
-    <li className={className}>
+    <li
+      className={classnames({ [className]: true, expanded, hasChildren, closeTag })}
+      onClick={(event) => beforeSectionClick(event, props)}>
       <TreeItemHighlight />
       <TreeItemGutter />
       {children && <span>{children}</span>}
@@ -30,6 +33,12 @@ const TreeItemTag = (props) => {
       </span>}
     </li>
   )
+}
+
+function beforeSectionClick (event, props) {
+  if (event.relatedTarget === null && props.onArrowClick) {
+    props.onArrowClick()
+  }
 }
 
 TreeItemTag.propTypes = {

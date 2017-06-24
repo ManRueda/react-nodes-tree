@@ -2,9 +2,9 @@ import styled from 'styled-components'
 
 export default (component) => styled(component)`
   & {
-    margin-left: ${props => props.theme.levelMargin}px;
     background-color: ${props => props.theme.backgroundColor};
     color: ${props => props.theme.font.color};
+    font-size: ${props => props.theme.font.size};
     font-family: ${props => props.theme.font.family};
   }
   * {
@@ -16,6 +16,9 @@ export default (component) => styled(component)`
     list-style-type: none;
     margin: 0;
     padding: 0;
+  }
+  ol > * {
+    margin-left: ${props => props.theme.levelMargin}em;
   }
   li {
     list-style-type: none;

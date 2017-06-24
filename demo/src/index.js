@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {render} from 'react-dom'
 
-import { Tree, Node } from '../../src'
+import { Tree } from '../../src'
 
 const node = {
   name: 'super-node',
@@ -66,8 +66,6 @@ class Demo extends Component {
     return <div>
       <h1>react-nodes-tree New</h1>
       <Tree node={node} />
-      <h1>react-nodes-tree Old</h1>
-      <Node node={node} />
     </div>
   }
 }

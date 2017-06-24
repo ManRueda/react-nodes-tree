@@ -7,7 +7,7 @@ import TreeItemTag from './tree-item-tag'
 
 const TreeItemTagClose = ({ name, level }) => {
   return (
-    <TreeItemTag name={name} level={level}>
+    <TreeItemTag name={name} level={level} closeTag>
       <TreeHtmlTag>
         <TreeItemName name={name} close />
       </TreeHtmlTag>

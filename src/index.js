@@ -1,5 +1,4 @@
-import Node from './node'
-import Tree from './parts/tree'
-import TreeItem from './parts/tree-item'
+import Tree from './tree'
+import TreeItem from './tree-item'
 
-export { Node, Tree, TreeItem }
+export { Tree, TreeItem }
