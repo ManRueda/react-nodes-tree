@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
+import { isClickOutside } from './helpers/events'
+
 import TreeItemHighlight from './tree-item-highlight'
 import TreeItemGutter from './tree-item-gutter'
 import TreeItemName from './tree-item-name'
@@ -36,7 +38,7 @@ const TreeItemTag = (props) => {
 }
 
 function beforeSectionClick (event, props) {
-  if (event.relatedTarget === null && props.onArrowClick) {
+  if (isClickOutside(event)) {
     props.onArrowClick()
   }
 }
